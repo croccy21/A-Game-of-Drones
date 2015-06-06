@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Test : MonoBehaviour {
+public class Movement : MonoBehaviour {
 
 	public float powerMultiplier = 1f;
 	public float yawMultiplier = 1f;
@@ -57,7 +57,7 @@ public class Test : MonoBehaviour {
 		currentYaw += yaw;
 		rb.MoveRotation (Quaternion.Euler (new Vector3 (roll, currentYaw, pitch)));
 		
-		rb.AddForce (Quaternion.Euler (new Vector3 (roll, currentYaw, pitch)) * new Vector3(0, power, 0));
+		rb.AddRelativeForce (new Vector3(0, power, 0));
 		if (resetVerticleVelocity) {
 			rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.y);
 		} 

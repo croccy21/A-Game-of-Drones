@@ -47,8 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CamMove.cs" />
+     <Compile Include="Assets\Movement.cs" />
      <Compile Include="Assets\MovementScript.cs" />
-     <Compile Include="Assets\Test.cs" />
+     <Compile Include="Assets\test1.cs" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
      <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
