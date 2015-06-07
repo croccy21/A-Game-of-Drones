@@ -8,6 +8,8 @@ public class Movement : MonoBehaviour {
 	public float pitchMultiplier = 1f;
 	public float rollMultiplier = 1f;
 
+	public float torqueCoefficient = 0.5f;
+
 	public float power = 0;
 	public float yaw = 0;
 	public float pitch = 0;
@@ -16,21 +18,13 @@ public class Movement : MonoBehaviour {
 	public static float maxPower = 5;
 	public static float minPower = 0;
 
-	public float currentYaw;
-
 	private Rigidbody rb;
-
-	private Blade frontLeft = new Blade (new Vector3(0.01f, 0, -0.055f));
-	private Blade frontRight = new Blade (new Vector3(0.01f, 0, 0.055f));
-	private Blade backLeft = new Blade (new Vector3(-0.01f, 0, -0.055f));
-	private Blade backRight = new Blade (new Vector3(-0.01f, 0, 0.055f));
 
 	bool resetVerticleVelocity = false;
 
 	void Start () {
 		rb = GetComponent<Rigidbody>();
-		currentYaw = 0;
-		//Debug.developerConsoleVisible = true;
+		Debug.developerConsoleVisible = true;
 	}
 
 	void Update () {
@@ -54,28 +48,16 @@ public class Movement : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		currentYaw += yaw;
-		//rb.MoveRotation (Quaternion.Euler (new Vector3 (roll, currentYaw, pitch)));
-		
-		rb.AddRelativeForce (new Vector3(0, power, 0));
-		if (resetVerticleVelocity) {
-			rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.y);
-		} 
-		rb.AddRelativeTorque (new Vector3 (-roll, yaw, -pitch));
-		//rb.angularVelocity = rb.rotation * new Vector3(0, yaw, 0);
-	}
+		rb.AddRelativeForce (power*transform.up);
+		//if (resetVerticleVelocity) {
+		//	rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.y);
+		//}
+		Vector3 vec = rb.rotation * (power * transform.up);
+		print (vec.x + "," + vec.y + "," + vec.z);
 
-	class Blade{
-		private Vector3 position;
-		private Vector3 force;
-		
-		public Blade(Vector3 position){
-			this.position = position;
-			force = new Vector3(0, 0, 0);
+		if((Mathf.Abs(yaw)>0) || (Mathf.Abs(roll)>0) || (Mathf.Abs(pitch)>0)){
+			rb.AddRelativeTorque (torqueCoefficient*Mathf.Pow(power, 0.5f)*(new Vector3 (-roll, yaw, -pitch)));
 		}
-		
-		public Vector3 getPosition(){
-			return position;
-		}
+
 	}
 }
