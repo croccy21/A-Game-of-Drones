@@ -55,12 +55,13 @@ public class Movement : MonoBehaviour {
 
 	void FixedUpdate(){
 		currentYaw += yaw;
-		rb.MoveRotation (Quaternion.Euler (new Vector3 (roll, currentYaw, pitch)));
+		//rb.MoveRotation (Quaternion.Euler (new Vector3 (roll, currentYaw, pitch)));
 		
 		rb.AddRelativeForce (new Vector3(0, power, 0));
 		if (resetVerticleVelocity) {
 			rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.y);
 		} 
+		rb.AddRelativeTorque (new Vector3 (-roll, yaw, -pitch));
 		//rb.angularVelocity = rb.rotation * new Vector3(0, yaw, 0);
 	}
 
