@@ -28,11 +28,16 @@ public class Movement : MonoBehaviour {
 	}
 
 	void Update () {
+
+	}
+
+	void FixedUpdate(){
+
 		power += Input.GetAxis("power")*powerMultiplier;
 		yaw = Input.GetAxis ("yaw") * yawMultiplier;
 		pitch = Input.GetAxis ("pitch") * pitchMultiplier;
 		roll = Input.GetAxis ("roll") * rollMultiplier;
-
+		
 		if (power > maxPower) {
 			power = maxPower;
 		}
@@ -40,14 +45,12 @@ public class Movement : MonoBehaviour {
 			power = minPower;
 		}
 		//print (power);
-
+		
 		if (Input.GetAxisRaw ("powerBalance") == 1) {
 			power = -Physics.gravity.y *rb.mass;
 			resetVerticleVelocity = true;
 		}
-	}
 
-	void FixedUpdate(){
 		rb.AddRelativeForce (power*transform.up);
 		//if (resetVerticleVelocity) {
 		//	rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.y);
