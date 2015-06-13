@@ -18,9 +18,9 @@ public class Movement : MonoBehaviour {
 	public static float maxPower = 5;
 	public static float minPower = 0;
 
-	private Rigidbody rb;
+	public static Vector3 directionUp  = new Vector3(0, 1, 0);
 
-	bool resetVerticleVelocity = false;
+	private Rigidbody rb;
 
 	void Start () {
 		rb = GetComponent<Rigidbody>();
@@ -47,20 +47,20 @@ public class Movement : MonoBehaviour {
 		//print (power);
 		
 		if (Input.GetAxisRaw ("powerBalance") == 1) {
-			power = -Physics.gravity.y *rb.mass;
-			resetVerticleVelocity = true;
+			power = -Physics.gravity.y * rb.mass;
 		}
-
-		rb.AddRelativeForce (power*transform.up);
-		//if (resetVerticleVelocity) {
-		//	rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.y);
-		//}
-		Vector3 vec = rb.rotation * (power * transform.up);
-		print (vec.x + "," + vec.y + "," + vec.z);
 
 		if((Mathf.Abs(yaw)>0) || (Mathf.Abs(roll)>0) || (Mathf.Abs(pitch)>0)){
 			rb.AddRelativeTorque (torqueCoefficient*Mathf.Pow(power, 0.5f)*(new Vector3 (-roll, yaw, -pitch)));
 		}
+
+		rb.AddRelativeForce (power*directionUp);
+
+		Vector3 vec = (power * directionUp);
+		Vector3 relVec = rb.rotation * vec;
+		print (string.Format ("({0}, {1}, {2}), ({3}, {4}, {5})", vec.x, vec.y, vec.z, relVec.x, relVec.y, relVec.z));
+
+
 
 	}
 }
