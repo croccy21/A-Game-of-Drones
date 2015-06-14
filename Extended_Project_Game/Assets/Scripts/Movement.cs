@@ -22,8 +22,14 @@ public class Movement : MonoBehaviour {
 
 	private Rigidbody rb;
 
+	private bool canReset = true;
+
+	
+	GameObject fader;
+
 	void Start () {
 		rb = GetComponent<Rigidbody>();
+		fader = GameObject.Find ("ScreenFadeCanvas");
 		Debug.developerConsoleVisible = true;
 	}
 
@@ -54,13 +60,25 @@ public class Movement : MonoBehaviour {
 			rb.AddRelativeTorque (torqueCoefficient*Mathf.Pow(power, 0.5f)*(new Vector3 (-roll, yaw, -pitch)));
 		}
 
+		if (canReset && Input.GetAxisRaw ("reset") == 1) {
+			StartCoroutine(Waiting(fader));
+		}
+
 		rb.AddRelativeForce (power*directionUp);
 
 		Vector3 vec = (power * directionUp);
 		Vector3 relVec = rb.rotation * vec;
-		print (string.Format ("({0}, {1}, {2}), ({3}, {4}, {5})", vec.x, vec.y, vec.z, relVec.x, relVec.y, relVec.z));
+		//print (string.Format ("({0}, {1}, {2}), ({3}, {4}, {5})", vec.x, vec.y, vec.z, relVec.x, relVec.y, relVec.z));
 
 
 
+	}
+	IEnumerator Waiting(GameObject fader){
+		canReset = false;
+		yield return StartCoroutine(fader.GetComponent<ScreenFadeInOut> ().DoFadeOut ());
+		rb.MoveRotation (Quaternion.Euler (new Vector3 (0, 0, 0)));
+		rb.MovePosition (new Vector3 (rb.position.x, rb.position.y, rb.position.z));
+		yield return StartCoroutine(fader.GetComponent<ScreenFadeInOut> ().DoFadeIn ());
+		canReset = true;
 	}
 }
