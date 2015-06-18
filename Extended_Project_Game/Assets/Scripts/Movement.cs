@@ -15,6 +15,8 @@ public class Movement : MonoBehaviour {
 	public float pitch = 0;
 	public float roll = 0;
 
+	public float heightBalanceMultiplier = 0.2f;
+
 	public static float maxPower = 5;
 	public static float minPower = 0;
 
@@ -23,6 +25,9 @@ public class Movement : MonoBehaviour {
 	private Rigidbody rb;
 
 	private bool canReset = true;
+
+	public bool balanceHeight = false;
+	public bool balanceHeightButtonPressed = false;
 
 	
 	GameObject fader;
@@ -44,16 +49,18 @@ public class Movement : MonoBehaviour {
 		pitch = Input.GetAxis ("pitch") * pitchMultiplier;
 		roll = Input.GetAxis ("roll") * rollMultiplier;
 		
-		if (power > maxPower) {
-			power = maxPower;
-		}
-		if (power < minPower) {
-			power = minPower;
-		}
-		//print (power);
-		
 		if (Input.GetAxisRaw ("powerBalance") == 1) {
-			power = -Physics.gravity.y * rb.mass;
+			if (!balanceHeightButtonPressed) {
+				balanceHeight = !balanceHeight;
+				balanceHeightButtonPressed = true;
+				print (balanceHeight);
+			}
+		} else {
+			balanceHeightButtonPressed = false;
+		}
+
+		if (balanceHeight && Input.GetAxis("power")==0){
+			power -= rb.velocity.y*heightBalanceMultiplier;
 		}
 
 		if((Mathf.Abs(yaw)>0) || (Mathf.Abs(roll)>0) || (Mathf.Abs(pitch)>0)){
@@ -64,13 +71,14 @@ public class Movement : MonoBehaviour {
 			StartCoroutine(Waiting(fader));
 		}
 
+		if (power > maxPower) {
+			power = maxPower;
+		}
+		if (power < minPower) {
+			power = minPower;
+		}
+
 		rb.AddRelativeForce (power*directionUp);
-
-		Vector3 vec = (power * directionUp);
-		Vector3 relVec = rb.rotation * vec;
-		//print (string.Format ("({0}, {1}, {2}), ({3}, {4}, {5})", vec.x, vec.y, vec.z, relVec.x, relVec.y, relVec.z));
-
-
 
 	}
 	IEnumerator Waiting(GameObject fader){
