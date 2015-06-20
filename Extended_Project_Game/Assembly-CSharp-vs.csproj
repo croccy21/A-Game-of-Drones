@@ -47,8 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CamMove.cs" />
-     <Compile Include="Assets\Scripts\CustomToggleSwitch.cs" />
-     <Compile Include="Assets\Scripts\GravityBalanceToggle.cs" />
+     <Compile Include="Assets\Scripts\GravityToggleSwitch.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
      <Compile Include="Assets\Scripts\ScreenFadeInOut.cs" />
      <Compile Include="Assets\Scripts\test1.cs" />

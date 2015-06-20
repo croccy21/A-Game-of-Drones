@@ -28,9 +28,25 @@ public class Movement : MonoBehaviour {
 
 	public bool balanceHeight = false;
 	public bool balanceHeightButtonPressed = false;
+	public byte balanceHeightButtonState = 0;
 
 	
 	GameObject fader;
+
+	/**Deals with the four main inputs:
+	* Power
+	* Roll
+	* Pitch
+	* Yaw
+	This only puts the values in the appropriate variables 
+	and does not do anything with them
+	*/
+	private void getMainInputs(){
+		power += Input.GetAxis("power")*powerMultiplier;
+		yaw = Input.GetAxis ("yaw") * yawMultiplier;
+		pitch = Input.GetAxis ("pitch") * pitchMultiplier;
+		roll = Input.GetAxis ("roll") * rollMultiplier;
+	}
 
 	void Start () {
 		rb = GetComponent<Rigidbody>();
@@ -39,19 +55,16 @@ public class Movement : MonoBehaviour {
 	}
 
 	void Update () {
-
 	}
 
 	void FixedUpdate(){
 
-		power += Input.GetAxis("power")*powerMultiplier;
-		yaw = Input.GetAxis ("yaw") * yawMultiplier;
-		pitch = Input.GetAxis ("pitch") * pitchMultiplier;
-		roll = Input.GetAxis ("roll") * rollMultiplier;
+		getMainInputs ();
 		
 		if (Input.GetAxisRaw ("powerBalance") == 1) {
 			if (!balanceHeightButtonPressed) {
 				balanceHeight = !balanceHeight;
+				balanceHeightButtonState = (byte)(balanceHeight ? 1 : 0);
 				balanceHeightButtonPressed = true;
 				print (balanceHeight);
 			}
@@ -59,8 +72,14 @@ public class Movement : MonoBehaviour {
 			balanceHeightButtonPressed = false;
 		}
 
-		if (balanceHeight && Input.GetAxis("power")==0){
-			power -= rb.velocity.y*heightBalanceMultiplier;
+		if (balanceHeight && Input.GetAxis ("power") == 0) {
+			float deltaPower = rb.velocity.y * heightBalanceMultiplier;
+			if (Mathf.Abs(deltaPower) > 0.07f) {
+				power -= deltaPower;
+			}
+			balanceHeightButtonState = (byte)(balanceHeight ? 1 : 0);
+		} else if (balanceHeight) {
+			balanceHeightButtonState = 2;
 		}
 
 		if((Mathf.Abs(yaw)>0) || (Mathf.Abs(roll)>0) || (Mathf.Abs(pitch)>0)){
