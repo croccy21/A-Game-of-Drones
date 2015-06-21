@@ -15,10 +15,11 @@ public class Movement : MonoBehaviour {
 	public float pitch = 0;
 	public float roll = 0;
 
-	public float heightBalanceMultiplier = 0.2f;
+	public float heightBalanceVelocityMultiplier = 0.2f;
+	public float heightBalanceDisplacementMultiplier = 0.2f;
 
-	public static float maxPower = 5;
-	public static float minPower = 0;
+	public float maxPower = 5;
+	public float minPower = 0;
 
 	public static Vector3 directionUp  = new Vector3(0, 1, 0);
 
@@ -26,9 +27,9 @@ public class Movement : MonoBehaviour {
 
 	private bool canReset = true;
 
-	public bool balanceHeight = false;
-	public bool balanceHeightButtonPressed = false;
+	private bool balanceHeightButtonPressed = false;
 	public byte balanceHeightButtonState = 0;
+	public float originHight;
 
 	
 	GameObject fader;
@@ -48,6 +49,57 @@ public class Movement : MonoBehaviour {
 		roll = Input.GetAxis ("roll") * rollMultiplier;
 	}
 
+	private void getToggleInputs(){
+		if (Input.GetAxisRaw ("powerBalance") == 1) {
+			if (!balanceHeightButtonPressed) {
+				balanceHeightButtonState = (byte)(balanceHeightButtonState<1 ? 1 : 0);
+				balanceHeightButtonPressed = true;
+			}
+		} else {
+			balanceHeightButtonPressed = false;
+		}
+
+		if (power > maxPower) {
+			power = maxPower;
+		}
+		if (power < minPower) {
+			power = minPower;
+		}
+		
+		/**
+		 * Reset Inputs
+		*/
+		if (canReset && Input.GetAxisRaw ("reset") == 1) {
+			StartCoroutine(Waiting(fader));
+		}
+	}
+
+	private void calculateForce(){
+
+		if (balanceHeightButtonState != 1) {
+			originHight=rb.position.y;
+		}
+
+		if (balanceHeightButtonState>0 && Input.GetAxis ("power") == 0) {
+			float deltaHeight = originHight - rb.position.y;
+			float deltaPower = rb.velocity.y * heightBalanceVelocityMultiplier 
+				  			 - deltaHeight * heightBalanceDisplacementMultiplier;
+			//if (Mathf.Abs(deltaPower) > 0.07f) {
+				power -= deltaPower;
+			//}
+			balanceHeightButtonState = (byte)(balanceHeightButtonState>0 ? 1 : 0);
+		} else if (balanceHeightButtonState>0) {
+			balanceHeightButtonState = 2;
+		}
+
+		if (power > maxPower) {
+			power = maxPower;
+		}
+		if (power < minPower) {
+			power = minPower;
+		}
+	}
+
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		fader = GameObject.Find ("ScreenFadeCanvas");
@@ -60,41 +112,11 @@ public class Movement : MonoBehaviour {
 	void FixedUpdate(){
 
 		getMainInputs ();
-		
-		if (Input.GetAxisRaw ("powerBalance") == 1) {
-			if (!balanceHeightButtonPressed) {
-				balanceHeight = !balanceHeight;
-				balanceHeightButtonState = (byte)(balanceHeight ? 1 : 0);
-				balanceHeightButtonPressed = true;
-				print (balanceHeight);
-			}
-		} else {
-			balanceHeightButtonPressed = false;
-		}
-
-		if (balanceHeight && Input.GetAxis ("power") == 0) {
-			float deltaPower = rb.velocity.y * heightBalanceMultiplier;
-			if (Mathf.Abs(deltaPower) > 0.07f) {
-				power -= deltaPower;
-			}
-			balanceHeightButtonState = (byte)(balanceHeight ? 1 : 0);
-		} else if (balanceHeight) {
-			balanceHeightButtonState = 2;
-		}
+		getToggleInputs ();
+		calculateForce ();
 
 		if((Mathf.Abs(yaw)>0) || (Mathf.Abs(roll)>0) || (Mathf.Abs(pitch)>0)){
 			rb.AddRelativeTorque (torqueCoefficient*Mathf.Pow(power, 0.5f)*(new Vector3 (-roll, yaw, -pitch)));
-		}
-
-		if (canReset && Input.GetAxisRaw ("reset") == 1) {
-			StartCoroutine(Waiting(fader));
-		}
-
-		if (power > maxPower) {
-			power = maxPower;
-		}
-		if (power < minPower) {
-			power = minPower;
 		}
 
 		rb.AddRelativeForce (power*directionUp);
