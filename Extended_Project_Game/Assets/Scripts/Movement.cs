@@ -11,9 +11,9 @@ public class Movement : MonoBehaviour {
 	public float torqueCoefficient = 0.5f;
 
 	public float power = 0;
-	public float yaw = 0;
-	public float pitch = 0;
-	public float roll = 0;
+	private float yaw = 0;
+	private float pitch = 0;
+	private float roll = 0;
 
 	public float heightBalanceVelocityMultiplier = 0.2f;
 	public float heightBalanceDisplacementMultiplier = 0.2f;
@@ -30,6 +30,10 @@ public class Movement : MonoBehaviour {
 	private bool balanceHeightButtonPressed = false;
 	public byte balanceHeightButtonState = 0;
 	public float originHight;
+
+	private bool balanceRotateButtonPressed = false;
+	public byte balanceRotateButtonState = 0;
+	public Vector3 originRotation;
 
 	
 	GameObject fader;
@@ -59,11 +63,13 @@ public class Movement : MonoBehaviour {
 			balanceHeightButtonPressed = false;
 		}
 
-		if (power > maxPower) {
-			power = maxPower;
-		}
-		if (power < minPower) {
-			power = minPower;
+		if (Input.GetAxisRaw ("rotationBalance") == 1) {
+			if (!balanceRotateButtonPressed) {
+				balanceRotateButtonState = (byte)(balanceRotateButtonState < 1 ? 1 : 0);
+				balanceRotateButtonPressed = true;
+			}
+		} else {
+			balanceRotateButtonPressed = false;
 		}
 		
 		/**
@@ -98,6 +104,16 @@ public class Movement : MonoBehaviour {
 		if (power < minPower) {
 			power = minPower;
 		}
+	}
+
+	private void calculateRotation(){
+
+		if (balanceRotateButtonState > 0 && Input.GetAxis ("pitch") == 0
+			&& Input.GetAxis ("roll") == 0) {
+
+		}
+
+
 	}
 
 	void Start () {

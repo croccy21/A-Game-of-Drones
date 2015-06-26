@@ -47,8 +47,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CamMove.cs" />
+     <Compile Include="Assets\Scripts\Drone.cs" />
      <Compile Include="Assets\Scripts\GravityToggleSwitch.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
+     <Compile Include="Assets\Scripts\RotationToggleSwitch.cs" />
      <Compile Include="Assets\Scripts\ScreenFadeInOut.cs" />
      <Compile Include="Assets\Scripts\test1.cs" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />

@@ -1,10 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Movement.cs">
     <Files>
+      <File FileName="Assets\Scripts\Movement.cs" Line="108" Column="2" />
       <File FileName="Assets\Scripts\ScreenFadeInOut.cs" Line="21" Column="29" />
-      <File FileName="Assets\Scripts\Movement.cs" Line="60" Column="21" />
-      <File FileName="Assets\Scripts\GravityToggleSwitch.cs" Line="22" Column="17" />
+      <File FileName="Assets\Scripts\GravityToggleSwitch.cs" Line="6" Column="2" />
+      <File FileName="Assets\Scripts\RotationToggleSwitch.cs" Line="23" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
