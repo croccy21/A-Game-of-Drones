@@ -14,9 +14,9 @@ public class Drone : MonoBehaviour {
 	public float minForce = 0;
 
 	private float force = 0;
-	private float yaw = 0;
-	private float pitch = 0;
-	private float roll = 0;
+	private float deltaYaw = 0;
+	private float deltaPitch = 0;
+	private float deltaRoll = 0;
 
 	private static Vector3 directionUp  = new Vector3(0, 1, 0);
 
@@ -28,9 +28,8 @@ public class Drone : MonoBehaviour {
 	private int balanceRotationMode = 0;
 	public Vector3 balanceRotationPosition = new Vector3(0, 0, 0);
 
-	// Use this for initialization
 	void Start () {
-		
+		drone = GetComponent<Rigidbody>();
 	}
 
 	public void changeForce(float deltaForce){
@@ -57,14 +56,15 @@ public class Drone : MonoBehaviour {
 			balanceGravityDisplacement=drone.position.y;
 		}
 		
-		if (balanceGravityMode>0) {
+		if (balanceGravityMode==1) {
 			float deltaHeight = balanceGravityDisplacement - drone.position.y;
 			float deltaForce = drone.velocity.y * balanceGravityVelocityCoefficient 
 				- deltaHeight * balanceGravityDisplacementCoefficient;
 			force -= deltaForce;
-			balanceGravityMode = balanceGravityMode>0 ? 1 : 0;
-		} else if (balanceGravityMode>0) {
-			balanceGravityMode = 2;
+		}
+
+		if (balanceGravityMode == 2) {
+			balanceGravityMode=1;
 		}
 		
 		if (force > maxForce) {
@@ -75,6 +75,23 @@ public class Drone : MonoBehaviour {
 		}
 	}
 
+	public void setRotation(float roll, float yaw, float pitch){
+		this.deltaRoll = roll;
+		this.deltaYaw = yaw;
+		this.deltaPitch = pitch;
+		if (balanceRotationMode == 1) {
+			balanceGravityMode = 2;
+		}
+	}
+
+	private void calculateRotation(){
+		if (balanceRotationMode == 1) {
+			deltaRoll+=drone.rotation.x;
+		}
+
+
+	}
+
 
 
 
@@ -83,7 +100,12 @@ public class Drone : MonoBehaviour {
 
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void FixedUpdate () {
+		calculateForce ();
+		//calculateRotation ();
+
+		drone.AddRelativeTorque (torqueCoefficient*Mathf.Pow(force, 0.5f)*(new Vector3 (-deltaRoll, deltaYaw, -deltaPitch)));
+		drone.AddRelativeForce (force * directionUp);
+
 	}
 }
