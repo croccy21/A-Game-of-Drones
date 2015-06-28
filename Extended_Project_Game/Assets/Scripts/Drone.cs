@@ -20,7 +20,7 @@ public class Drone : MonoBehaviour {
 
 	private static Vector3 directionUp  = new Vector3(0, 1, 0);
 
-	private int balanceGravityMode = 0;
+	public int balanceGravityMode = 0;
 	private float balanceGravityDisplacement = 0f;
 	public float balanceGravityVelocityCoefficient = .2f;
 	public float balanceGravityDisplacementCoefficient = .3f;
@@ -35,7 +35,11 @@ public class Drone : MonoBehaviour {
 	public void changeForce(float deltaForce){
 		force += deltaForce * forceCoefficient;
 		if (balanceGravityMode > 0) {
-			balanceGravityMode = 2;
+			if (deltaForce>0){
+				balanceGravityMode = 2;
+			} else{
+				balanceGravityMode = 1;
+			}
 		}
 	}
 
@@ -62,10 +66,6 @@ public class Drone : MonoBehaviour {
 				- deltaHeight * balanceGravityDisplacementCoefficient;
 			force -= deltaForce;
 		}
-
-		if (balanceGravityMode == 2) {
-			balanceGravityMode=1;
-		}
 		
 		if (force > maxForce) {
 			force = maxForce;
@@ -75,12 +75,17 @@ public class Drone : MonoBehaviour {
 		}
 	}
 
-	public void setRotation(float roll, float yaw, float pitch){
+	public void changeRotation(float roll, float yaw, float pitch){
 		this.deltaRoll = roll;
 		this.deltaYaw = yaw;
 		this.deltaPitch = pitch;
-		if (balanceRotationMode == 1) {
-			balanceGravityMode = 2;
+		if (balanceRotationMode >0) {
+			if (roll==0 && yaw==0 && pitch==0){
+				balanceRotationMode = 1;
+			}
+			else{
+				balanceRotationMode = 2;
+			}
 		}
 	}
 
@@ -92,7 +97,25 @@ public class Drone : MonoBehaviour {
 
 	}
 
+	public void resetRotation(){
+		drone.MoveRotation(Quaternion.Euler (new Vector3 (0, 0, 0)));
+	}
 
+	public void toggleBalanceGravity(){
+		if (balanceGravityMode > 0) {
+			balanceGravityMode = 0;
+		} else {
+			balanceGravityMode = 1;
+		}
+	}
+
+	public void toggleBalanceRotation(){
+		if (balanceRotationMode == 1) {
+			balanceRotationMode = 0;
+		} else {
+			balanceRotationMode = 1;
+		}
+	}
 
 
 
