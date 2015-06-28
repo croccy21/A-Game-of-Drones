@@ -5,6 +5,8 @@ public class Drone : MonoBehaviour {
 
 	//Does not deal with button detection
 
+	private static float RAD_2_DEG = Mathf.PI/180;
+
 	private Rigidbody drone;
 
 	public float torqueCoefficient = 1f;
@@ -15,8 +17,8 @@ public class Drone : MonoBehaviour {
 
 	private float force = 0;
 	private float deltaYaw = 0;
-	private float deltaPitch = 0;
-	private float deltaRoll = 0;
+	public float deltaPitch = 0;
+	public float deltaRoll = 0;
 
 	private static Vector3 directionUp  = new Vector3(0, 1, 0);
 
@@ -35,7 +37,7 @@ public class Drone : MonoBehaviour {
 	public void changeForce(float deltaForce){
 		force += deltaForce * forceCoefficient;
 		if (balanceGravityMode > 0) {
-			if (deltaForce>0){
+			if (deltaForce!=0){
 				balanceGravityMode = 2;
 			} else{
 				balanceGravityMode = 1;
@@ -76,23 +78,18 @@ public class Drone : MonoBehaviour {
 	}
 
 	public void changeRotation(float roll, float yaw, float pitch){
-		this.deltaRoll = roll;
-		this.deltaYaw = yaw;
-		this.deltaPitch = pitch;
-		if (balanceRotationMode >0) {
-			if (roll==0 && yaw==0 && pitch==0){
-				balanceRotationMode = 1;
-			}
-			else{
-				balanceRotationMode = 2;
-			}
-		}
+		this.deltaRoll += roll;
+		this.deltaYaw += yaw;
+		this.deltaPitch += pitch;
 	}
 
 	private void calculateRotation(){
 		if (balanceRotationMode == 1) {
-			deltaRoll+=drone.rotation.x;
+			deltaRoll+=Mathf.Sin(drone.rotation.eulerAngles.x*RAD_2_DEG);
+			deltaPitch+=Mathf.Sin(drone.rotation.eulerAngles.z*RAD_2_DEG);
 		}
+		print (Mathf.Sin(drone.rotation.eulerAngles.x*RAD_2_DEG) + " --> " + deltaRoll + ", " 
+		       + Mathf.Sin(drone.rotation.eulerAngles.z*RAD_2_DEG) + " --> " + deltaPitch);
 
 
 	}
@@ -125,9 +122,12 @@ public class Drone : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		calculateForce ();
-		//calculateRotation ();
+		calculateRotation ();
 
 		drone.AddRelativeTorque (torqueCoefficient*Mathf.Pow(force, 0.5f)*(new Vector3 (-deltaRoll, deltaYaw, -deltaPitch)));
+		deltaRoll = 0;
+		deltaPitch = 0;
+		deltaYaw = 0;
 		drone.AddRelativeForce (force * directionUp);
 
 	}
