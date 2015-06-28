@@ -4,11 +4,17 @@ using System.Collections;
 public class Keying : MonoBehaviour {
 
 	public GameObject controlDrone;
+	public GameObject gravityButton;
+	public GameObject rotationButton;
+	private DisplayButton gravityDisplay;
+	private DisplayButton rotationDisplay;
+
+
 	private Drone drone;
 	private GameObject fader;
 	private ScreenFadeInOut faderScript;
 
-	private bool canReset;
+	private bool canReset = true;
 	private bool canToggleBalanceGravity = true;
 	private bool canToggleBalanceRotation = true;
 
@@ -17,6 +23,8 @@ public class Keying : MonoBehaviour {
 		drone = controlDrone.GetComponent<Drone>();
 		fader = GameObject.Find ("ScreenFadeCanvas");
 		faderScript = fader.GetComponent<ScreenFadeInOut> ();
+		gravityDisplay = gravityButton.GetComponent<DisplayButton> ();
+		rotationDisplay = rotationButton.GetComponent<DisplayButton> ();
 	}
 	
 	// Update is called once per frame
@@ -47,6 +55,9 @@ public class Keying : MonoBehaviour {
 		} else {
 			canToggleBalanceRotation = true;
 		}
+
+		gravityDisplay.setTexture (drone.getBanlanceGravityMode ());
+		rotationDisplay.setTexture (drone.getBanlanceRotationMode ());
 	}
 
 	IEnumerator Waiting(GameObject fader){
