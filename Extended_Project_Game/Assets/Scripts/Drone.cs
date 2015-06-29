@@ -83,13 +83,18 @@ public class Drone : MonoBehaviour {
 		this.deltaPitch += pitch;
 	}
 
+	private float angleToTorque(float theta){
+		float sinTheta = Mathf.Sin (theta);
+		return Mathf.Sign(sinTheta)*Mathf.Pow (sinTheta*2, 2f);
+	}
+
 	private void calculateRotation(){
 		if (balanceRotationMode == 1) {
-			deltaRoll+=Mathf.Sin(drone.rotation.eulerAngles.x*RAD_2_DEG);
-			deltaPitch+=Mathf.Sin(drone.rotation.eulerAngles.z*RAD_2_DEG);
+			deltaRoll+=angleToTorque(drone.rotation.eulerAngles.x*RAD_2_DEG);
+			deltaPitch+=angleToTorque(drone.rotation.eulerAngles.z*RAD_2_DEG);
 		}
-		print (Mathf.Sin(drone.rotation.eulerAngles.x*RAD_2_DEG) + " --> " + deltaRoll + ", " 
-		       + Mathf.Sin(drone.rotation.eulerAngles.z*RAD_2_DEG) + " --> " + deltaPitch);
+		//print (Mathf.Sin(drone.rotation.eulerAngles.x*RAD_2_DEG) + " --> " + deltaRoll + ", " 
+		//       + Mathf.Sin(drone.rotation.eulerAngles.z*RAD_2_DEG) + " --> " + deltaPitch);
 
 
 	}
@@ -124,7 +129,8 @@ public class Drone : MonoBehaviour {
 		calculateForce ();
 		calculateRotation ();
 
-		drone.AddRelativeTorque (torqueCoefficient*Mathf.Pow(force, 0.5f)*(new Vector3 (-deltaRoll, deltaYaw, -deltaPitch)));
+		drone.AddRelativeTorque (torqueCoefficient*Mathf.Pow(force, 0.5f)*(new Vector3 (-deltaRoll, 0, -deltaPitch)));
+		drone.AddTorque (torqueCoefficient*Mathf.Pow(force, 0.5f)*(new Vector3 (0, deltaYaw, 0)));
 		deltaRoll = 0;
 		deltaPitch = 0;
 		deltaYaw = 0;
