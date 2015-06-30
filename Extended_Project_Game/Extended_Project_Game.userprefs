@@ -1,10 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Drone.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FeedbackButtonAnim.cs">
     <Files>
-      <File FileName="Assets\Scripts\Drone.cs" Line="89" Column="1" />
+      <File FileName="Assets\Scripts\Drone.cs" Line="122" Column="2" />
       <File FileName="Assets\Scripts\Keying.cs" Line="31" Column="23" />
       <File FileName="Assets\Scripts\DisplayButton.cs" Line="27" Column="28" />
+      <File FileName="Assets\Scripts\FeedbackButtonAnim.cs" Line="67" Column="2" />
+      <File FileName="Assets\Scripts\ScreenFadeInOut.cs" Line="33" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
