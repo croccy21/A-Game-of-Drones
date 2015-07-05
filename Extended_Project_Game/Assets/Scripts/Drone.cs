@@ -44,6 +44,9 @@ public class Drone : MonoBehaviour {
 			}
 		}
 	}
+	public void setForce(float force){
+		this.force = force;
+	}
 
 	public float getForce(){
 		return force;

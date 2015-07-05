@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Keying : MonoBehaviour {
 
 	public GameObject controlDrone;
 	public GameObject gravityButton;
 	public GameObject rotationButton;
+	public GameObject forceSlider;
 	private DisplayButton gravityDisplay;
 	private DisplayButton rotationDisplay;
-
 
 	private Drone drone;
 	private GameObject fader;
 	private ScreenFadeInOut faderScript;
+	private Slider slider;
 
 	private bool canReset = true;
 	private bool canToggleBalanceGravity = true;
@@ -25,6 +27,9 @@ public class Keying : MonoBehaviour {
 		faderScript = fader.GetComponent<ScreenFadeInOut> ();
 		gravityDisplay = gravityButton.GetComponent<DisplayButton> ();
 		rotationDisplay = rotationButton.GetComponent<DisplayButton> ();
+		slider = forceSlider.GetComponent<Slider> ();
+		slider.maxValue = drone.maxForce;
+		slider.minValue = drone.minForce;
 	}
 	
 	// Update is called once per frame
@@ -58,6 +63,12 @@ public class Keying : MonoBehaviour {
 
 		gravityDisplay.setTexture (drone.getBanlanceGravityMode ());
 		rotationDisplay.setTexture (drone.getBanlanceRotationMode ());
+
+		slider.value = drone.getForce ();
+	}
+
+	public void sliderChanged(){
+		drone.setForce (slider.value);
 	}
 
 	IEnumerator Waiting(GameObject fader){
