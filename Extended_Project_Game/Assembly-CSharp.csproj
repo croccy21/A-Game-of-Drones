@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\ExternalLink.cs" />
      <Compile Include="Assets\Scripts\FeedbackButtonAnim.cs" />
      <Compile Include="Assets\Scripts\Keying.cs" />
+     <Compile Include="Assets\Scripts\Navball.cs" />
      <Compile Include="Assets\Scripts\Old\CamMove.cs" />
      <Compile Include="Assets\Scripts\Old\GravityToggleSwitch.cs" />
      <Compile Include="Assets\Scripts\Old\Movement.cs" />

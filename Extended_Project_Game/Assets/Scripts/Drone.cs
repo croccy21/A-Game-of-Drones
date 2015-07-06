@@ -122,6 +122,10 @@ public class Drone : MonoBehaviour {
 		}
 	}
 
+	public Vector3 getRotation(){
+		return drone.rotation.eulerAngles;
+	}
+
 
 
 
