@@ -136,8 +136,7 @@ public class Drone : MonoBehaviour {
 		calculateForce ();
 		calculateRotation ();
 
-		drone.AddRelativeTorque (torqueCoefficient*Mathf.Pow(force, 0.5f)*(new Vector3 (-deltaRoll, 0, -deltaPitch)));
-		drone.AddTorque (torqueCoefficient*Mathf.Pow(force, 0.5f)*(new Vector3 (0, deltaYaw, 0)));
+		drone.AddRelativeTorque (torqueCoefficient*Mathf.Pow(force, 0.5f)*(new Vector3 (-deltaRoll, deltaYaw, -deltaPitch)));
 		deltaRoll = 0;
 		deltaPitch = 0;
 		deltaYaw = 0;
