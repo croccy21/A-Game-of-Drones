@@ -122,8 +122,8 @@ public class Drone : MonoBehaviour {
 		}
 	}
 
-	public Vector3 getRotation(){
-		return drone.rotation.eulerAngles;
+	public Quaternion getRotation(){
+		return drone.rotation;
 	}
 
 

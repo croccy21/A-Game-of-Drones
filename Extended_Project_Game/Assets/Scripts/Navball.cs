@@ -14,7 +14,7 @@ public class Navball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate (){	
-		Vector3 rotation = droneScript.getRotation ();
-		transform.eulerAngles = new Vector3 (rotation.x, 0, rotation.z);
+		Quaternion rotation = droneScript.getRotation ();
+		transform.rotation = rotation;
 	}
 }
