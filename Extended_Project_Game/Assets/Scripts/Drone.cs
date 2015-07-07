@@ -19,6 +19,7 @@ public class Drone : MonoBehaviour {
 	private float deltaYaw = 0;
 	public float deltaPitch = 0;
 	public float deltaRoll = 0;
+	public float maxDeltaForce = 1;
 
 	private static Vector3 directionUp  = new Vector3(0, 1, 0);
 
@@ -69,6 +70,9 @@ public class Drone : MonoBehaviour {
 			float deltaHeight = balanceGravityDisplacement - drone.position.y;
 			float deltaForce = drone.velocity.y * balanceGravityVelocityCoefficient 
 				- deltaHeight * balanceGravityDisplacementCoefficient;
+			if (Mathf.Abs(deltaForce)>maxDeltaForce){
+				deltaForce=maxDeltaForce*Mathf.Sign(deltaForce);
+			}
 			force -= deltaForce;
 		}
 		
