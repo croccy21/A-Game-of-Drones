@@ -121,10 +121,6 @@ public class Drone : MonoBehaviour {
 			deltaRoll+=angleToTorque(drone.rotation.eulerAngles.x*RAD_2_DEG);
 			deltaPitch+=angleToTorque(drone.rotation.eulerAngles.z*RAD_2_DEG);
 		}
-		//print (Mathf.Sin(drone.rotation.eulerAngles.x*RAD_2_DEG) + " --> " + deltaRoll + ", " 
-		//       + Mathf.Sin(drone.rotation.eulerAngles.z*RAD_2_DEG) + " --> " + deltaPitch);
-
-
 	}
 
 	public void resetRotation(){

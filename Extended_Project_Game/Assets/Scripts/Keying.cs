@@ -61,6 +61,10 @@ public class Keying : MonoBehaviour {
 			canToggleBalanceRotation = true;
 		}
 
+		if (Input.GetAxisRaw ("ForceReset") == 1) {
+			drone.setForce(0);
+		}
+
 		gravityDisplay.setTexture (drone.getBanlanceGravityMode ());
 		rotationDisplay.setTexture (drone.getBanlanceRotationMode ());
 
