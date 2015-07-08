@@ -39,6 +39,9 @@ public class Drone : MonoBehaviour {
 		force += deltaForce * forceCoefficient;
 		if (balanceGravityMode > 0) {
 			if (deltaForce!=0){
+				if (balanceGravityMode==1){
+					force = calculateRequiredForce();
+				}
 				balanceGravityMode = 2;
 			} else{
 				balanceGravityMode = 1;
@@ -61,19 +64,37 @@ public class Drone : MonoBehaviour {
 		return balanceRotationMode;
 	}
 
+	private float calculateRequiredForce(){
+		Vector3 model = drone.rotation * directionUp;
+		float verticleRequiredForce = Physics.gravity.y * drone.mass;
+		float ratio = verticleRequiredForce / model.y;
+		model = ratio * model;
+		return Mathf.Sqrt (Mathf.Pow (model.x, 2) + Mathf.Pow (model.y, 2) + Mathf.Pow (model.z, 2));
+	}
+
 	private void calculateForce(){
+
 		if (balanceGravityMode != 1) {
 			balanceGravityDisplacement=drone.position.y;
 		}
 		
 		if (balanceGravityMode==1) {
+			float requiredForce = calculateRequiredForce();
 			float deltaHeight = balanceGravityDisplacement - drone.position.y;
 			float deltaForce = drone.velocity.y * balanceGravityVelocityCoefficient 
 				- deltaHeight * balanceGravityDisplacementCoefficient;
-			if (Mathf.Abs(deltaForce)>maxDeltaForce){
-				deltaForce=maxDeltaForce*Mathf.Sign(deltaForce);
+
+			float estimatedForce = force - deltaForce;
+
+			if (estimatedForce>requiredForce+maxDeltaForce){
+				force = requiredForce+maxDeltaForce;
 			}
-			force -= deltaForce;
+			else if(estimatedForce<requiredForce-maxDeltaForce){
+				force = requiredForce-maxDeltaForce;
+			}
+			else {
+				force -= deltaForce;
+			}
 		}
 		
 		if (force > maxForce) {

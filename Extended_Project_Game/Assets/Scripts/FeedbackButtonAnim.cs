@@ -9,8 +9,6 @@ public class FeedbackButtonAnim : MonoBehaviour {
 	static float smallTextWidth = 9;
 	static float largeTextWidth = 64;
 	static float height = 30;
-	static float x = 0;
-	static float y = 0;
 
 	private RectTransform buttonRect;
 	private RectTransform textRect;

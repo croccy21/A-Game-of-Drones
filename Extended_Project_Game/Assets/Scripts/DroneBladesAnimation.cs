@@ -16,6 +16,6 @@ public class DroneBladesAnimation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		anim.SetFloat (paramHash, droneController.getForce ());
+		anim.SetFloat (paramHash, droneController.getForce ()*5);
 	}
 }
