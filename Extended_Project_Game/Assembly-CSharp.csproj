@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\DayNightCycle.cs" />
      <Compile Include="Assets\Scripts\DisplayButton.cs" />
      <Compile Include="Assets\Scripts\Drone.cs" />
      <Compile Include="Assets\Scripts\DroneBladesAnimation.cs" />
