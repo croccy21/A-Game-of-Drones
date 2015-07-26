@@ -229,7 +229,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 230281025}
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: -1.62920685e-07}
+  m_LocalRotation: {x: 0, y: .97475189, z: 0, w: -.223290905}
   m_LocalPosition: {x: 0, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -249,6 +249,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeConstant: .100000001
+  worldTime: 0
+  dayNightUpdateList:
+  - {fileID: 743101700}
+  dayNightUpdate: []
 --- !u!1 &239930183
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,6 +697,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 361540551}
   - 108: {fileID: 361540552}
+  - 114: {fileID: 361540553}
   m_Layer: 0
   m_Name: tower light 1
   m_TagString: Untagged
@@ -707,23 +712,23 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 361540550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .000899999985, z: -.00150000001}
+  m_LocalPosition: {x: 0, y: .00100001693, z: -.00199999823}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 980665379}
-  m_RootOrder: 1
+  m_Father: {fileID: 743101701}
+  m_RootOrder: 0
 --- !u!108 &361540552
 Light:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 361540550}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 6
   m_Type: 2
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: .5
-  m_Range: 20
+  m_Intensity: .699999988
+  m_Range: 5
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -744,6 +749,17 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &361540553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 361540550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a95d76bbd328e44493899817dd1dd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &537934651
 Prefab:
   m_ObjectHideFlags: 0
@@ -975,6 +991,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 739174009}
   - 108: {fileID: 739174010}
+  - 114: {fileID: 739174011}
   m_Layer: 0
   m_Name: tower light 3
   m_TagString: Untagged
@@ -989,23 +1006,23 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 739174008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .000900000334, z: .00150000001}
+  m_LocalPosition: {x: 0, y: .00100001693, z: .00199999823}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 980665379}
-  m_RootOrder: 3
+  m_Father: {fileID: 743101701}
+  m_RootOrder: 2
 --- !u!108 &739174010
 Light:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 739174008}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 6
   m_Type: 2
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: .5
-  m_Range: 20
+  m_Intensity: .699999988
+  m_Range: 5
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -1026,6 +1043,65 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &739174011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 739174008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a95d76bbd328e44493899817dd1dd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &743101700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 743101701}
+  - 114: {fileID: 743101702}
+  m_Layer: 0
+  m_Name: TowerLightGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &743101701
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 743101700}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 361540551}
+  - {fileID: 1546373745}
+  - {fileID: 739174009}
+  - {fileID: 1766042155}
+  m_Father: {fileID: 980665379}
+  m_RootOrder: 1
+--- !u!114 &743101702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 743101700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 879d7b2fec847ef4198b9cc31044788e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightObjects:
+  - {fileID: 361540550}
+  - {fileID: 1546373744}
+  - {fileID: 739174008}
+  - {fileID: 1766042154}
 --- !u!1 &839053526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1253,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_Strength: 1
     m_Bias: .0500000007
@@ -1819,6 +1895,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1546373745}
   - 108: {fileID: 1546373746}
+  - 114: {fileID: 1546373747}
   m_Layer: 0
   m_Name: tower light 2
   m_TagString: Untagged
@@ -1833,23 +1910,23 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1546373744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.00150000001, y: .000900000334, z: 0}
+  m_LocalPosition: {x: -.00199999823, y: .00100001693, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 980665379}
-  m_RootOrder: 2
+  m_Father: {fileID: 743101701}
+  m_RootOrder: 1
 --- !u!108 &1546373746
 Light:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1546373744}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 6
   m_Type: 2
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: .5
-  m_Range: 20
+  m_Intensity: .699999988
+  m_Range: 5
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -1870,6 +1947,17 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &1546373747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1546373744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a95d76bbd328e44493899817dd1dd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1563920443
 Prefab:
   m_ObjectHideFlags: 0
@@ -1921,6 +2009,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1766042155}
   - 108: {fileID: 1766042156}
+  - 114: {fileID: 1766042157}
   m_Layer: 0
   m_Name: tower light 4
   m_TagString: Untagged
@@ -1935,23 +2024,23 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1766042154}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .00150000001, y: .000900000334, z: 0}
+  m_LocalPosition: {x: .00199999823, y: .00100001693, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 980665379}
-  m_RootOrder: 4
+  m_Father: {fileID: 743101701}
+  m_RootOrder: 3
 --- !u!108 &1766042156
 Light:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1766042154}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 6
   m_Type: 2
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: .5
-  m_Range: 20
+  m_Intensity: .699999988
+  m_Range: 5
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -1972,6 +2061,17 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &1766042157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1766042154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a95d76bbd328e44493899817dd1dd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1777503582
 Prefab:
   m_ObjectHideFlags: 0
