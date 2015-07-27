@@ -97,10 +97,10 @@ public class Drone : MonoBehaviour {
 			}
 		}
 		
-		if (force > maxForce) {
+		if (force >= maxForce) {
 			force = maxForce;
 		}
-		if (force < minForce) {
+		if (force <= minForce) {
 			force = minForce;
 		}
 	}
