@@ -14,19 +14,16 @@ public class TowerDayNight : DayNightBase {
 	}
 
 	public override void startDay(){
-		print ("sub");
 		StopCoroutine ("flash");
 		foreach (LightOnOff light in lights) {
 			light.turnOff();
 		}
 	}
 	public override void startNight(){
-		//foreach (LightOnOff light in lights) {
-		//	light.turnOn();
-		//}
-		StartCoroutine ("flash");
+		StartCoroutine ("flash", Random.Range(0f,2f));
 	}
-	private IEnumerator flash(){
+	private IEnumerator flash(float startDelay){
+		yield return new WaitForSeconds (startDelay);
 		while (true) {
 			foreach (LightOnOff light in lights) {
 				light.turnOn();
@@ -36,7 +33,6 @@ public class TowerDayNight : DayNightBase {
 				light.turnOff();
 			}
 			yield return new WaitForSeconds(2);
-			//yield return null;
 		}
 
 	}

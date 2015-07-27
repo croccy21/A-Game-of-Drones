@@ -5,6 +5,7 @@ public class DayNightCycle : MonoBehaviour {
 
 	public float timeConstant = 0.1f;
 	public float worldTime = 0f;
+	private bool setNight = false;
 	private int day = 0;
 	public GameObject[] dayNightUpdateList;
 	public DayNightBase[] dayNightUpdate;
@@ -26,14 +27,16 @@ public class DayNightCycle : MonoBehaviour {
 		}
 		transform.rotation =  Quaternion.Euler(new Vector3 (worldTime, 205, 0));
 
-		if (worldTime > 89 && worldTime < 91) {
+		if (worldTime >= 90 && worldTime < 270 && !setNight) {
 			foreach(DayNightBase item in dayNightUpdate){
 				item.startNight();
+				setNight = true;
 			}
 		}
-		if (worldTime > 269 && worldTime < 271) {
+		if ((worldTime >= 270 || worldTime < 90) && setNight) {
 			foreach(DayNightBase item in dayNightUpdate){
 				item.startDay();
+				setNight = false;
 			}
 		}
 	}
