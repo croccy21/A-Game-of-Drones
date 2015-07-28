@@ -49,4 +49,8 @@ public class DayNightCycle : MonoBehaviour {
 	public bool isDay(){
 		return !isNight ();
 	}
+
+	public int getDay(){
+		return day;
+	}
 }

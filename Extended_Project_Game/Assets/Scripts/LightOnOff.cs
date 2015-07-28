@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class LightOnOff : MonoBehaviour {
-	private Light light;
+	private Light scriptLight;
 
 	// Use this for initialization
 	void Start () {
-		light = GetComponent<Light>();
+		scriptLight = GetComponent<Light>();
 	}
 	
 	// Update is called once per frame
@@ -14,15 +14,15 @@ public class LightOnOff : MonoBehaviour {
 	}
 
 	public void turnOn(){
-		light.enabled = true;
+		scriptLight.enabled = true;
 	}
 	public void turnOff(){
-		light.enabled = false;
+		scriptLight.enabled = false;
 	}
 	public void toggleLight(){
-		light.enabled = !light.enabled;
+		scriptLight.enabled = !scriptLight.enabled;
 	}
 	public bool isLightOn(){
-		return light.enabled;
+		return scriptLight.enabled;
 	}
 }
