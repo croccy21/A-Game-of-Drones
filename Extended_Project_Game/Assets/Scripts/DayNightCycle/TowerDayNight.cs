@@ -20,7 +20,7 @@ public class TowerDayNight : DayNightBase {
 		}
 	}
 	public override void startNight(){
-		StartCoroutine ("flash", Random.Range(0f,2f));
+		StartCoroutine ("flash", Random.Range(0f,4f));
 	}
 	private IEnumerator flash(float startDelay){
 		yield return new WaitForSeconds (startDelay);
