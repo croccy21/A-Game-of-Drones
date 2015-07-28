@@ -7,15 +7,11 @@ public class DayNightCycle : MonoBehaviour {
 	public float worldTime = 0f;
 	private bool setNight = false;
 	private int day = 0;
-	public GameObject[] dayNightUpdateList;
-	public DayNightBase[] dayNightUpdate;
+	private DayNightBase[] dayNightUpdateList;
 
 	// Use this for initialization
 	void Start () {
-		dayNightUpdate = new DayNightBase[dayNightUpdateList.Length];
-		for (int i = 0; i<dayNightUpdateList.Length; i++) {
-			dayNightUpdate[i] = dayNightUpdateList[i].GetComponent<DayNightBase>();
-		}
+		dayNightUpdateList = (DayNightBase[])Resources.FindObjectsOfTypeAll (typeof(DayNightBase));
 	}
 	
 	// Update is called once per frame
@@ -28,13 +24,13 @@ public class DayNightCycle : MonoBehaviour {
 		transform.rotation =  Quaternion.Euler(new Vector3 (worldTime, 205, 0));
 
 		if (worldTime >= 90 && worldTime < 270 && !setNight) {
-			foreach(DayNightBase item in dayNightUpdate){
+			foreach(DayNightBase item in dayNightUpdateList){
 				item.startNight();
 				setNight = true;
 			}
 		}
 		if ((worldTime >= 270 || worldTime < 90) && setNight) {
-			foreach(DayNightBase item in dayNightUpdate){
+			foreach(DayNightBase item in dayNightUpdateList){
 				item.startDay();
 				setNight = false;
 			}
@@ -52,5 +48,9 @@ public class DayNightCycle : MonoBehaviour {
 	}
 	public bool isDay(){
 		return !isNight ();
+	}
+
+	public int getDay(){
+		return day;
 	}
 }
