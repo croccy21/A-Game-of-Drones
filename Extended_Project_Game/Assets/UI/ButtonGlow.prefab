@@ -87,9 +87,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: .100000001
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 30652466e2a999543ad9f0a65cb05418,
+      type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 245944ac123376642bade8486b0ed62e, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: deef15d936dd47249b2c51a159eacc27, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: d03a6393245533647bcd4df084abb0a8, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -180,7 +181,12 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SpriteState.m_DisabledSprite
       value: 
-      objectReference: {fileID: 21300000, guid: deef15d936dd47249b2c51a159eacc27,
+      objectReference: {fileID: 21300000, guid: d03a6393245533647bcd4df084abb0a8,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 30652466e2a999543ad9f0a65cb05418,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
