@@ -29,10 +29,13 @@ public class Drone : MonoBehaviour {
 	public float balanceGravityDisplacementCoefficient = .3f;
 
 	private int balanceRotationMode = 0;
-	public Vector3 balanceRotationPosition = new Vector3(0, 0, 0);
+
+	private RadioControl[] radioControlList;
+
 
 	void Start () {
 		drone = GetComponent<Rigidbody>();
+		radioControlList = (RadioControl[])Resources.FindObjectsOfTypeAll (typeof(RadioControl));
 	}
 
 	public void changeForce(float deltaForce){
@@ -147,6 +150,14 @@ public class Drone : MonoBehaviour {
 		return drone.rotation;
 	}
 
+	void updateRacasts(){
+		foreach (RadioControl r in radioControlList){
+			if (r.enabled){
+				r.checkLineOfSight();
+			}
+		}
+	}
+
 
 
 
@@ -162,6 +173,6 @@ public class Drone : MonoBehaviour {
 		deltaPitch = 0;
 		deltaYaw = 0;
 		drone.AddRelativeForce (force * directionUp);
-
+		updateRacasts ();
 	}
 }

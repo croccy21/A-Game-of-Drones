@@ -18,6 +18,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &173816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 488380}
+  - 114: {fileID: 11447900}
+  m_Layer: 0
+  m_Name: control
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &461526
 Transform:
   m_ObjectHideFlags: 1
@@ -27,8 +43,21 @@ Transform:
   m_LocalRotation: {x: .381383777, y: .58056128, z: -.627299547, w: .352122724}
   m_LocalPosition: {x: -.0549999997, y: 2.02699995, z: .0109999999}
   m_LocalScale: {x: 2.4000001, y: 2.4000001, z: 2.4000001}
-  m_Children: []
+  m_Children:
+  - {fileID: 488380}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!4 &488380
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 173816}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: .050999999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 461526}
   m_RootOrder: 0
 --- !u!23 &2332584
 MeshRenderer:
@@ -73,6 +102,21 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300000, guid: d2b0e4e95de7fe74c9659c36d63bbfa8, type: 3}
+--- !u!114 &11447900
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 173816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da4e5b051d86f943a07af00e8d8b587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droneObject: {fileID: 0}
+  active: 1
+  maxRange: 100
+  fadeStartRatio: .200000003
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
