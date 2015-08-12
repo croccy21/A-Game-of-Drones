@@ -7,11 +7,73 @@ public class RadioControl : MonoBehaviour {
 		public int mode;
 		public bool hit;
 		public float fadeRatio;
+		public float distanceRatio;
 		public RadioRaycastData(){
 			
 		}
+		public static bool operator >(RadioRaycastData x, RadioRaycastData y){
+			if (!x.hit && y.hit) {
+				return false;
+			}else if (x.hit && !y.hit){
+				return true;
+			} else if (x.mode < y.mode) {
+				print (string.Format("x mode {}; y mode {}", x.mode, y.mode));
+				return true;
+			} else {
+				if (x.mode == STATE_OUT_OF_RANGE) {
+					return false;
+				} else if (x.mode == STATE_ON_BORDER) {
+					if (x.fadeRatio < y.fadeRatio) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (x.mode == STATE_IN_RANGE){
+					if(x.distanceRatio < y.distanceRatio){
+						return true;
+					} else{
+						return false;
+					}
+				}
+				else{
+					return false;
+				}
+			}
+		}
+		public static bool operator <(RadioRaycastData x, RadioRaycastData y){
+			if (!x.hit && y.hit) {
+				return true;
+			}else if (x.hit && !y.hit){
+				return false;
+			} else if (x.mode > y.mode) {
+				return true;
+			} else {
+				if (x.mode == STATE_OUT_OF_RANGE) {
+					return false;
+				} else if (x.mode == STATE_ON_BORDER) {
+					if (x.fadeRatio > y.fadeRatio) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (x.mode == STATE_IN_RANGE){
+					if(x.distanceRatio > y.distanceRatio){
+						return true;
+					} else{
+						return false;
+					}
+				} else{
+					return false;
+				}
+			}
+		}
+
+		public override string ToString(){
+			return string.Format ("Obstructed:{0}, mode:{1}", !hit, mode);
+		}
 	}
-	public GameObject droneObject;
+
+	GameObject droneObject;
 	Rigidbody drone;
 	GameObject line;
 	LineRenderer l;
@@ -27,7 +89,7 @@ public class RadioControl : MonoBehaviour {
 	public static int ERROR_UNSPECIFIED = -1;
 
 	void Start(){
-		//droneObject = GameObject.Find("drone");
+		droneObject = GameObject.Find("drone");
 		drone = droneObject.GetComponent<Rigidbody>();
 		line = new GameObject ();
 		Instantiate(line);
@@ -70,6 +132,7 @@ public class RadioControl : MonoBehaviour {
 						l.SetColors(Color.green, Color.green);
 					}
 					data.hit = true;
+					data.distanceRatio = hit.distance / maxRange;
 				}
 			} else {
 				data.hit = false;

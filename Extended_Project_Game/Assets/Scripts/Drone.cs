@@ -31,6 +31,7 @@ public class Drone : MonoBehaviour {
 	private int balanceRotationMode = 0;
 
 	private RadioControl[] radioControlList;
+	public RadioControl connectedTo;
 
 
 	void Start () {
@@ -150,18 +151,59 @@ public class Drone : MonoBehaviour {
 		return drone.rotation;
 	}
 
-	void updateRacasts(){
-		foreach (RadioControl r in radioControlList){
-			if (r.enabled){
-				r.checkLineOfSight();
-			}
-		}
+	void connectionLost(){
+		print("NO CONNECTION!");
 	}
 
+	void connectionBoarder(float ratio){
+		print("LOOSING CONNECTION: "+ratio.ToString());
+	}
 
+	void updateRacasts(){
+		bool tryReconect = false;
+		RadioControl.RadioRaycastData current = null;
+		if (connectedTo != null && connectedTo.isActiveAndEnabled) {
+			current = connectedTo.checkLineOfSight ();
+			//print(current);
+			if (current.hit==false || current.mode != RadioControl.STATE_IN_RANGE) {
+				tryReconect=true;
+			}
+		} else {
+			tryReconect=true;
+		}
 
+		if (tryReconect) {
+			RadioControl.RadioRaycastData best = null;
+			RadioControl bestConnection = null;
+			if (current != null) {
+				best = current;
+				bestConnection = connectedTo;
+			}
+			foreach (RadioControl r in radioControlList) {
+				if (r.isActiveAndEnabled) {
+					RadioControl.RadioRaycastData data = r.checkLineOfSight ();
+					/*if(best!=null){
+						print(data.ToString() + ">" + best.ToString());
+						print (data>best);
+					
+					}*/
+					if (best==null || data>best){
+						best = data;
+						bestConnection = r;
+					}
+				}
+			}
+			connectedTo = bestConnection;
+			current = best;
+		}
 
-
+		if (!current.hit || current.mode==RadioControl.STATE_OUT_OF_RANGE) {
+			connectionLost();
+		}
+		if (current.mode==RadioControl.STATE_ON_BORDER){
+			connectionBoarder(current.fadeRatio);
+		}
+	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
