@@ -64,6 +64,8 @@
      <Compile Include="Assets\Scripts\Old\test1.cs" />
      <Compile Include="Assets\Scripts\RadioControl.cs" />
      <Compile Include="Assets\Scripts\ScreenFadeInOut.cs" />
+     <Compile Include="Assets\Scripts\StaticControl.cs" />
+     <Compile Include="Assets\Scripts\animatedImage.cs" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
      <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />

@@ -32,11 +32,15 @@ public class Drone : MonoBehaviour {
 
 	private RadioControl[] radioControlList;
 	public RadioControl connectedTo;
+	private StaticControl staticControl;
 
 
 	void Start () {
 		drone = GetComponent<Rigidbody>();
 		radioControlList = (RadioControl[])Resources.FindObjectsOfTypeAll (typeof(RadioControl));
+
+		GameObject c = GameObject.Find("StaticCanvas");
+		staticControl = c.GetComponent<StaticControl> ();
 	}
 
 	public void changeForce(float deltaForce){
@@ -152,11 +156,21 @@ public class Drone : MonoBehaviour {
 	}
 
 	void connectionLost(){
-		print("NO CONNECTION!");
+		staticControl.setAlpha (1);
+		staticControl.activate ();
+		//print ("Connection Lost");
 	}
 
 	void connectionBoarder(float ratio){
-		print("LOOSING CONNECTION: "+ratio.ToString());
+		staticControl.setAlpha (1-ratio);
+		staticControl.activate ();
+		//print ("Loosing Conenction");
+	}
+
+	void connectionCreated(){
+		staticControl.deactivate();
+		staticControl.setAlpha (0);
+		//print ("Connected");
 	}
 
 	void updateRacasts(){
@@ -195,6 +209,9 @@ public class Drone : MonoBehaviour {
 			}
 			connectedTo = bestConnection;
 			current = best;
+			if (best.mode==RadioControl.STATE_IN_RANGE && best.hit){
+				connectionCreated();
+			}
 		}
 
 		if (!current.hit || current.mode==RadioControl.STATE_OUT_OF_RANGE) {
