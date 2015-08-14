@@ -209,9 +209,6 @@ public class Drone : MonoBehaviour {
 			}
 			connectedTo = bestConnection;
 			current = best;
-			if (best.mode==RadioControl.STATE_IN_RANGE && best.hit){
-				connectionCreated();
-			}
 		}
 
 		if (!current.hit || current.mode==RadioControl.STATE_OUT_OF_RANGE) {
@@ -219,6 +216,10 @@ public class Drone : MonoBehaviour {
 		}
 		if (current.mode==RadioControl.STATE_ON_BORDER){
 			connectionBoarder(current.fadeRatio);
+		}
+		
+		if (current.mode==RadioControl.STATE_IN_RANGE && current.hit){
+			connectionCreated();
 		}
 	}
 	

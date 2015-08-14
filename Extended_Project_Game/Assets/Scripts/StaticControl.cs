@@ -16,14 +16,14 @@ public class StaticControl : MonoBehaviour {
 	public void deactivate(){
 		//canvas.enabled = false;
 		canvasGroup.alpha = 0;
-		print ("Deactivated");
+		//print ("Deactivated");
 		image.enabled = false;
 	}
 
 	public void activate(){
 		//canvas.enabled = true;
 		image.enabled = true;
-		print ("Activated");
+		//print ("Activated");
 	}
 
 	public void setAlpha(float a){

@@ -17,7 +17,7 @@ public class RadioControl : MonoBehaviour {
 			}else if (x.hit && !y.hit){
 				return true;
 			} else if (x.mode < y.mode) {
-				print (string.Format("x mode {}; y mode {}", x.mode, y.mode));
+				print (string.Format("x mode {0}; y mode {1}", x.mode, y.mode));
 				return true;
 			} else {
 				if (x.mode == STATE_OUT_OF_RANGE) {
