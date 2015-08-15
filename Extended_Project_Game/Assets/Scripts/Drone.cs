@@ -30,6 +30,7 @@ public class Drone : MonoBehaviour {
 
 	private int balanceRotationMode = 0;
 
+	private bool countdownOn = false;
 	private RadioControl[] radioControlList;
 	public RadioControl connectedTo;
 	private StaticControl staticControl;
@@ -154,22 +155,44 @@ public class Drone : MonoBehaviour {
 	public Quaternion getRotation(){
 		return drone.rotation;
 	}
+	
+	IEnumerator countdown(){
+		countdownOn = true;
+		for (int i=10; i>=0; i--) {
+			staticControl.setCountdown(i);
+			yield return new WaitForSeconds (1);
+		}
+		Time.timeScale = 0;
+	}
 
 	void connectionLost(){
 		staticControl.setAlpha (1);
 		staticControl.activate ();
+		if (!countdownOn) {
+			StartCoroutine("countdown");
+		}
 		//print ("Connection Lost");
 	}
 
 	void connectionBoarder(float ratio){
 		staticControl.setAlpha (1-ratio);
 		staticControl.activate ();
+		if (countdownOn) {
+			StopCoroutine("countdown");
+            staticControl.setCountdown(-1);
+			countdownOn=false;
+		}
 		//print ("Loosing Conenction");
 	}
 
 	void connectionCreated(){
 		staticControl.deactivate();
 		staticControl.setAlpha (0);
+		if (countdownOn) {
+            StopCoroutine("countdown");
+			staticControl.setCountdown(-1);
+			countdownOn=false;
+		}
 		//print ("Connected");
 	}
 

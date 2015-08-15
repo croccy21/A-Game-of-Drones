@@ -5,6 +5,7 @@ using System.Collections;
 public class StaticControl : MonoBehaviour {
 
 	public Image image;
+	public Text countdown;
 	public Canvas canvas;
 	CanvasGroup canvasGroup;
 
@@ -28,5 +29,17 @@ public class StaticControl : MonoBehaviour {
 
 	public void setAlpha(float a){
 		canvasGroup.alpha = a;
+	}
+
+	public void setCountdown(int n){
+		if (n > 0) {
+			countdown.enabled = true;
+			countdown.text = string.Format ("{0}", n);
+		} else if (n == 0) {
+			countdown.enabled = true;
+			countdown.text = "Connection Timeout";
+		} else {
+			countdown.enabled=false;
+		}
 	}
 }

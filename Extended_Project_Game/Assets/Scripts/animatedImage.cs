@@ -11,8 +11,12 @@ public class animatedImage : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (enabled) {
-			timer = (timer + Time.deltaTime * fps) % frames.Length;
-			GetComponent<Image> ().sprite = frames[(int)timer];
+			timer = (timer + Time.fixedDeltaTime * fps) % frames.Length;
+            if (timer >= 3)
+            {
+                timer = 0;
+            }
+			GetComponent<Image> ().sprite = frames[Mathf.FloorToInt(timer)];
 		}
 	}
 }
