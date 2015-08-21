@@ -40,7 +40,7 @@ public class Keying : MonoBehaviour {
 		                     Input.GetAxis ("pitch"));
 
 		if (Input.GetAxisRaw("reset") == 1 && canReset) {
-			StartCoroutine(Waiting(fader));
+			StartCoroutine(Waiting(drone.resetRotation, fader));
 		}
 
 		if (Input.GetAxisRaw ("powerBalance") == 1) {
@@ -75,10 +75,16 @@ public class Keying : MonoBehaviour {
 		drone.setForce (slider.value);
 	}
 
-	IEnumerator Waiting(GameObject fader){
+    public void respawn()
+    {
+        StartCoroutine(Waiting(drone.respawn, fader));
+    }
+
+	IEnumerator Waiting(System.Action function, GameObject fader){
 		canReset = false;
 		yield return StartCoroutine(faderScript.DoFadeOut ());
-		drone.resetRotation();
+        function();
+		//drone.resetRotation();
 		yield return StartCoroutine(faderScript.DoFadeIn ());
 		canReset = true;
 	}
