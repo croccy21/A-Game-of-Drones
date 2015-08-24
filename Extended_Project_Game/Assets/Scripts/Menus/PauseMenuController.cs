@@ -10,6 +10,8 @@ public class PauseMenuController : MonoBehaviour {
 
 	private bool pauseButtonPressed = false;
 
+    private SpawnPoint openedSpawnPoint;
+
 	// Use this for initialization
 	void Start () {
 		globalCanvas = GetComponent<Canvas> ();
@@ -33,6 +35,10 @@ public class PauseMenuController : MonoBehaviour {
 
 	public void setMenu(int menuID){
 		if (menuID < menu.Length) {
+            if (menuID == currentID)
+            {
+                menuID = -1;
+            }
 			currentID = menuID;
 			if (menuID >= 0) {
 				if (!globalCanvas.enabled) {
@@ -54,4 +60,23 @@ public class PauseMenuController : MonoBehaviour {
 			}
 		}
 	}
+
+    public void openSpawnPoint(SpawnPoint spawnPoint)
+    {
+        if (spawnPoint != null)
+        {
+            openedSpawnPoint = spawnPoint;
+            setMenu(3);
+        }
+        else
+        {
+            setMenu(4);
+        }
+    }
+
+    public void setSpawn()
+    {
+        Drone d = FindObjectOfType<Drone>();
+        d.setSpawn(openedSpawnPoint);
+    }
 }

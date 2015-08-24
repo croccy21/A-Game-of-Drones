@@ -50,6 +50,12 @@ public class Drone : MonoBehaviour {
 			}
 		}
 	}
+
+    public Vector3 getCoords()
+    {
+        return drone.position;
+    }
+
 	public void setForce(float force){
 		this.force = force;
 	}
@@ -164,6 +170,11 @@ public class Drone : MonoBehaviour {
         balanceGravityMode = 0;
         balanceRotationMode = 0;
         //drone.
+    }
+
+    public void setSpawn(SpawnPoint spawnPoint)
+    {
+        lastSpawnpoint = spawnPoint;
     }
 
 
