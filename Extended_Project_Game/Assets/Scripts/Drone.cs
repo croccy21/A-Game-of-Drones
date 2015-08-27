@@ -29,12 +29,19 @@ public class Drone : MonoBehaviour {
 	public float balanceGravityDisplacementCoefficient = .3f;
 
 	private int balanceRotationMode = 0;
-	public Vector3 balanceRotationPosition = new Vector3(0, 0, 0);
 
+	private bool countdownOn = false;
+	private RadioControl[] radioControlList;
+	public RadioControl connectedTo;
+	private StaticControl staticControl;
     public SpawnPoint lastSpawnpoint;
 
 	void Start () {
 		drone = GetComponent<Rigidbody>();
+		radioControlList = (RadioControl[])Resources.FindObjectsOfTypeAll (typeof(RadioControl));
+
+		GameObject c = GameObject.Find("StaticCanvas");
+		staticControl = c.GetComponent<StaticControl> ();
 	}
 
 	public void changeForce(float deltaForce){
@@ -154,7 +161,24 @@ public class Drone : MonoBehaviour {
 	public Quaternion getRotation(){
 		return drone.rotation;
 	}
+	
+	IEnumerator countdown(){
+		countdownOn = true;
+		for (int i=10; i>=0; i--) {
+			staticControl.setCountdown(i);
+			yield return new WaitForSeconds (1);
+		}
+		Time.timeScale = 0;
+	}
 
+	void connectionLost(){
+		staticControl.setAlpha (1);
+		staticControl.activate ();
+		if (!countdownOn) {
+			StartCoroutine("countdown");
+		}
+		//print ("Connection Lost");
+	}
     public void respawn()
     {
         respawn(lastSpawnpoint);
@@ -179,10 +203,77 @@ public class Drone : MonoBehaviour {
         lastSpawnpoint.setIsSpawn(true);
     }
 
+	void connectionBoarder(float ratio){
+		staticControl.setAlpha (1-ratio);
+		staticControl.activate ();
+		if (countdownOn) {
+			StopCoroutine("countdown");
+            staticControl.setCountdown(-1);
+			countdownOn=false;
+		}
+		//print ("Loosing Conenction");
+	}
 
+	void connectionCreated(){
+		staticControl.deactivate();
+		staticControl.setAlpha (0);
+		if (countdownOn) {
+            StopCoroutine("countdown");
+			staticControl.setCountdown(-1);
+			countdownOn=false;
+		}
+		//print ("Connected");
+	}
 
+	void updateRacasts(){
+		bool tryReconect = false;
+		RadioControl.RadioRaycastData current = null;
+		if (connectedTo != null && connectedTo.isActiveAndEnabled) {
+			current = connectedTo.checkLineOfSight ();
+			//print(current);
+			if (current.hit==false || current.mode != RadioControl.STATE_IN_RANGE) {
+				tryReconect=true;
+			}
+		} else {
+			tryReconect=true;
+		}
 
+		if (tryReconect) {
+			RadioControl.RadioRaycastData best = null;
+			RadioControl bestConnection = null;
+			if (current != null) {
+				best = current;
+				bestConnection = connectedTo;
+			}
+			foreach (RadioControl r in radioControlList) {
+				if (r.isActiveAndEnabled) {
+					RadioControl.RadioRaycastData data = r.checkLineOfSight ();
+					/*if(best!=null){
+						print(data.ToString() + ">" + best.ToString());
+						print (data>best);
+					
+					}*/
+					if (best==null || data>best){
+						best = data;
+						bestConnection = r;
+					}
+				}
+			}
+			connectedTo = bestConnection;
+			current = best;
+		}
 
+		if (!current.hit || current.mode==RadioControl.STATE_OUT_OF_RANGE) {
+			connectionLost();
+		}
+		if (current.mode==RadioControl.STATE_ON_BORDER){
+			connectionBoarder(current.fadeRatio);
+		}
+		
+		if (current.mode==RadioControl.STATE_IN_RANGE && current.hit){
+			connectionCreated();
+		}
+	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -194,6 +285,6 @@ public class Drone : MonoBehaviour {
 		deltaPitch = 0;
 		deltaYaw = 0;
 		drone.AddRelativeForce (force * directionUp);
-
+		updateRacasts ();
 	}
 }
