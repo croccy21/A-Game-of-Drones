@@ -1151,7 +1151,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 2
-  m_Color: {r: .278431386, g: .466666669, b: .647058845, a: 1}
+  m_Color: {r: .278431386, g: .466666669, b: .291000009, a: 1}
   m_Intensity: 2
   m_Range: 2
   m_SpotAngle: 30
@@ -1183,7 +1183,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 2
-  m_Color: {r: .278431386, g: .466666669, b: .647058845, a: 1}
+  m_Color: {r: .278431386, g: .466666669, b: .291000009, a: 1}
   m_Intensity: 2
   m_Range: 2
   m_SpotAngle: 30
@@ -1215,7 +1215,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 2
-  m_Color: {r: .278431386, g: .466666669, b: .647058845, a: 1}
+  m_Color: {r: .278431386, g: .466666669, b: .291000009, a: 1}
   m_Intensity: 2
   m_Range: 2
   m_SpotAngle: 30
@@ -1247,7 +1247,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 2
-  m_Color: {r: .278431386, g: .466666669, b: .647058845, a: 1}
+  m_Color: {r: .278431386, g: .466666669, b: .291000009, a: 1}
   m_Intensity: 2
   m_Range: 2
   m_SpotAngle: 30
@@ -1298,6 +1298,8 @@ MonoBehaviour:
   - {fileID: 10826444}
   - {fileID: 10804052}
   - {fileID: 10870080}
+  isOpen: 0
+  isSpawn: 0
 --- !u!114 &11482836
 MonoBehaviour:
   m_ObjectHideFlags: 1

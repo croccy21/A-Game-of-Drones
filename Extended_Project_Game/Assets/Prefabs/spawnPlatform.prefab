@@ -347,6 +347,8 @@ MonoBehaviour:
   - {fileID: 10804054}
   - {fileID: 10847556}
   - {fileID: 10887378}
+  isOpen: 0
+  isSpawn: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
