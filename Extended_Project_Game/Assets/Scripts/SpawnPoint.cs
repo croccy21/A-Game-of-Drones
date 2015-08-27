@@ -3,17 +3,16 @@ using System.Collections;
 using System;
 
 public class SpawnPoint : MonoBehaviour {
-
-    public static Color COLOR_DEFAULT = new Color((float)0x47 / 0xff, (float)0x77 / 0xff, (float)0xA5 / 0xff);
-    public static Color COLOR_IN_USE = new Color((float)0xff / 0xff, (float)0x14 / 0xff, (float)0x14 / 0xff);
-    public static Color COLOR_ACTIVE = new Color();
+    public static Color COLOR_DEFAULT = new Color32(0x47, 0x77, 0xA5, 0xFF);
+    public static Color COLOR_IN_USE = new Color32(0xff, 0x14, 0x14, 0xFF);
+    public static Color COLOR_ACTIVE = new Color32(0x47, 0x77, 0x4A, 0xFF);
 
     public Light[] lights;
 
     private Color currentColor = COLOR_DEFAULT;
 
-    private bool isOpen = false;
-
+    public bool isOpen = false;
+    public bool isSpawn = false;
 
     public Vector3 getLocation()
     {
@@ -25,7 +24,7 @@ public class SpawnPoint : MonoBehaviour {
         return transform.position;
     }
 
-    public void setColor(Color color)
+    private void setColor(Color color)
     {
         foreach (Light l in lights)
         {
@@ -34,14 +33,31 @@ public class SpawnPoint : MonoBehaviour {
         }
     }
 
+    public void updateColor()
+    {
+        if (isOpen) {
+            setColor(COLOR_IN_USE);
+        }
+        else if (isSpawn)
+        {
+            setColor(COLOR_ACTIVE);
+        }
+        else
+        {
+            setColor(COLOR_DEFAULT);
+        }
+    }
+
     public void setIsOpen(bool isOpen)
     {
         this.isOpen = isOpen;
+        updateColor();
     }
 
-    public bool getIsOpen()
+    public void setIsSpawn(bool isSpawn)
     {
-        return isOpen;
+        this.isSpawn = isSpawn;
+        updateColor();
     }
 
     public Color getColor()

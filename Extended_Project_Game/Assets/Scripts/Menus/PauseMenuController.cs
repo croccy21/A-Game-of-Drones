@@ -39,10 +39,10 @@ public class PauseMenuController : MonoBehaviour {
             {
                 menuID = -1;
             }
-            if (currentID == 3) { openedSpawnPoint.setColor(SpawnPoint.COLOR_DEFAULT); }
+            if (currentID == 3) { openedSpawnPoint.setIsOpen(false); }
 			currentID = menuID;
 			if (menuID >= 0) {
-                if (menuID == 3) { openedSpawnPoint.setColor(SpawnPoint.COLOR_IN_USE); }
+                if (menuID == 3) { openedSpawnPoint.setIsOpen(true); }
 				if (!globalCanvas.enabled) {
 					globalCanvas.enabled = true;
 					Time.timeScale=0;

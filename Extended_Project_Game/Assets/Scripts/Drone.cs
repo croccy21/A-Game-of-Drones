@@ -174,7 +174,9 @@ public class Drone : MonoBehaviour {
 
     public void setSpawn(SpawnPoint spawnPoint)
     {
+        lastSpawnpoint.setIsSpawn(false);
         lastSpawnpoint = spawnPoint;
+        lastSpawnpoint.setIsSpawn(true);
     }
 
 
