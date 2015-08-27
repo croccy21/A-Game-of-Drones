@@ -8,6 +8,7 @@ public class Keying : MonoBehaviour {
 	public GameObject gravityButton;
 	public GameObject rotationButton;
 	public GameObject forceSlider;
+    public GameObject pauseMenu;
 	private DisplayButton gravityDisplay;
 	private DisplayButton rotationDisplay;
 
@@ -15,10 +16,16 @@ public class Keying : MonoBehaviour {
 	private GameObject fader;
 	private ScreenFadeInOut faderScript;
 	private Slider slider;
+    private PauseMenuController pauseMenuController;
+
+    private SpawnPoint[] spawnPoints;
 
 	private bool canReset = true;
 	private bool canToggleBalanceGravity = true;
 	private bool canToggleBalanceRotation = true;
+    private bool canToggleSpawnPoint = true;
+
+    
 
 	// Use this for initialization
 	void Start () {
@@ -30,17 +37,50 @@ public class Keying : MonoBehaviour {
 		slider = forceSlider.GetComponent<Slider> ();
 		slider.maxValue = drone.maxForce;
 		slider.minValue = drone.minForce;
+
+        spawnPoints = FindObjectsOfType<SpawnPoint>();
+
+        pauseMenuController = pauseMenu.GetComponent<PauseMenuController>();
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    private void checkOpenSpawnPoint()
+    {
+        Vector3 location = drone.getCoords();
+        float closest = float.PositiveInfinity;
+        SpawnPoint closestSpawnPoint = null;
+        foreach (SpawnPoint spawnPoint in spawnPoints)
+        {
+            if (spawnPoint.isActiveAndEnabled)
+            {
+                Vector3 spawnLocation = spawnPoint.getCoords();
+                float distance = Vector3.Distance(location, spawnLocation);
+                if (distance < closest)
+                {
+                    closest = distance;
+                    closestSpawnPoint = spawnPoint;
+                }
+            }
+        }
+        if (closest < 2 && closestSpawnPoint!=null)
+        {
+            pauseMenuController.openSpawnPoint(closestSpawnPoint);
+        }
+        else
+        {
+            pauseMenuController.openSpawnPoint(null);
+        }
+        canToggleSpawnPoint = false;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate () {
 		drone.changeForce (	 Input.GetAxis ("power"));
 		drone.changeRotation(Input.GetAxis ("roll"), 
 		                     Input.GetAxis ("yaw"), 
 		                     Input.GetAxis ("pitch"));
 
 		if (Input.GetAxisRaw("reset") == 1 && canReset) {
-			StartCoroutine(Waiting(fader));
+			StartCoroutine(Waiting(drone.resetRotation, fader));
 		}
 
 		if (Input.GetAxisRaw ("powerBalance") == 1) {
@@ -71,14 +111,35 @@ public class Keying : MonoBehaviour {
 		slider.value = drone.getForce ();
 	}
 
+    void Update()
+    {
+        if (Input.GetAxisRaw("OpenSpawnPoint") == 1)
+        {
+            if (canToggleSpawnPoint)
+            {
+                checkOpenSpawnPoint();
+            }
+        }
+        else
+        {
+            canToggleSpawnPoint = true;
+        }
+    }
+
 	public void sliderChanged(){
 		drone.setForce (slider.value);
 	}
 
-	IEnumerator Waiting(GameObject fader){
+    public void respawn()
+    {
+        StartCoroutine(Waiting(drone.respawn, fader));
+    }
+
+	IEnumerator Waiting(System.Action function, GameObject fader){
 		canReset = false;
 		yield return StartCoroutine(faderScript.DoFadeOut ());
-		drone.resetRotation();
+        function();
+		//drone.resetRotation();
 		yield return StartCoroutine(faderScript.DoFadeIn ());
 		canReset = true;
 	}

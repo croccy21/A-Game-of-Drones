@@ -31,6 +31,8 @@ public class Drone : MonoBehaviour {
 	private int balanceRotationMode = 0;
 	public Vector3 balanceRotationPosition = new Vector3(0, 0, 0);
 
+    public SpawnPoint lastSpawnpoint;
+
 	void Start () {
 		drone = GetComponent<Rigidbody>();
 	}
@@ -48,6 +50,12 @@ public class Drone : MonoBehaviour {
 			}
 		}
 	}
+
+    public Vector3 getCoords()
+    {
+        return drone.position;
+    }
+
 	public void setForce(float force){
 		this.force = force;
 	}
@@ -146,6 +154,30 @@ public class Drone : MonoBehaviour {
 	public Quaternion getRotation(){
 		return drone.rotation;
 	}
+
+    public void respawn()
+    {
+        respawn(lastSpawnpoint);
+    }
+
+    public void respawn(SpawnPoint spawnPoint)
+    {
+        resetRotation();
+        drone.position = spawnPoint.getLocation();
+        setForce(0);
+        drone.velocity = new Vector3(0, 0, 0);
+        drone.angularVelocity = new Vector3(0, 0, 0);
+        balanceGravityMode = 0;
+        balanceRotationMode = 0;
+        //drone.
+    }
+
+    public void setSpawn(SpawnPoint spawnPoint)
+    {
+        lastSpawnpoint.setIsSpawn(false);
+        lastSpawnpoint = spawnPoint;
+        lastSpawnpoint.setIsSpawn(true);
+    }
 
 
 
