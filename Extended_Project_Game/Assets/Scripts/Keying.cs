@@ -133,13 +133,13 @@ public class Keying : MonoBehaviour {
     public void respawn()
     {
         StartCoroutine(Waiting(drone.respawn, fader));
+        Time.timeScale = 1;
     }
 
 	IEnumerator Waiting(System.Action function, GameObject fader){
 		canReset = false;
 		yield return StartCoroutine(faderScript.DoFadeOut ());
         function();
-		//drone.resetRotation();
 		yield return StartCoroutine(faderScript.DoFadeIn ());
 		canReset = true;
 	}

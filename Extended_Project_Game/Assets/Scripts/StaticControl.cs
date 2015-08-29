@@ -6,6 +6,7 @@ public class StaticControl : MonoBehaviour {
 
 	public Image image;
 	public Text countdown;
+    public GameObject respawn;
 	public Canvas canvas;
 	CanvasGroup canvasGroup;
 
@@ -34,12 +35,15 @@ public class StaticControl : MonoBehaviour {
 	public void setCountdown(int n){
 		if (n > 0) {
 			countdown.enabled = true;
+            respawn.SetActive(false);
 			countdown.text = string.Format ("{0}", n);
 		} else if (n == 0) {
 			countdown.enabled = true;
 			countdown.text = "Connection Timeout";
-		} else {
+            respawn.SetActive(true);
+        } else {
 			countdown.enabled=false;
-		}
+            respawn.SetActive(false);
+        }
 	}
 }
